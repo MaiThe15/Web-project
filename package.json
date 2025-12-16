@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "frontEnd": "cd frontEnd && npm run dev",
-    "backEnd": "cd backEnd && npx nodemon index.js",
+    "backEnd": "cd backEnd && npx nodemon src/index.js",
     "start": "concurrently \"npm run backEnd\" \"npm run frontEnd\""
   },
   "keywords": [],
