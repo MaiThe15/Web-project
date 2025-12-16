@@ -1,0 +1,22 @@
+# --- Thư viện & Build (Không up lên vì nặng) ---
+node_modules/
+dist/
+build/
+
+# --- Bảo mật (Tuyệt đối không up) ---
+.env
+.env.*
+
+# --- Rác của Windows (Chặn để Git sạch đẹp) ---
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# --- File báo lỗi ---
+npm-debug.log*
+yarn-error.log*
+
+# --- Cấu hình Editor (Nên chặn để mỗi người dùng settings riêng) ---
+.vscode/
+.idea/
