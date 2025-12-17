@@ -18,4 +18,15 @@ router.post('/', (req, res, next) => {
     });
 }, productController.createProduct);
 
+// Cần ID và cho phép upload ảnh mới
+router.put('/:id', (req, res, next) => {
+    upload.single('image')(req, res, (err) => {
+        if (err) return res.status(400).json({ message: err.message });
+        next();
+    });
+}, productController.updateProduct);
+
+// Cần ID
+router.delete('/:id', productController.deleteProduct);
+
 module.exports = router;
