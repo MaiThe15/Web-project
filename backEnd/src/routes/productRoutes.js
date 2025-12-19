@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
 const upload = require('../config/upload');
+const { verifyToken, checkAdmin } = require('../middleware/authMiddleware');
 
-// Định nghĩa: Khi ai đó gọi GET vào đường dẫn này -> Chạy hàm getAllProducts
+// Ai cũng xem được
 router.get('/', productController.getAllProducts);
 
 // 'image' là tên key mà Frontend phải gửi trong Form Data
-router.post('/', (req, res, next) => {
+// Cần đăng nhập + Là Admin
+router.post('/', verifyToken, checkAdmin, (req, res, next) => {
     upload.single('image')(req, res, (err) => {
         if (err) {
             // Nếu có lỗi từ Multer (VD: Sai định dạng file), trả về lỗi 400 JSON
@@ -19,14 +21,18 @@ router.post('/', (req, res, next) => {
 }, productController.createProduct);
 
 // Cần ID và cho phép upload ảnh mới
-router.put('/:id', (req, res, next) => {
+// Cần đăng nhập + Là Admin
+router.put('/:id', verifyToken, checkAdmin, (req, res, next) => {
     upload.single('image')(req, res, (err) => {
-        if (err) return res.status(400).json({ message: err.message });
+        if (err) {
+            return res.status(400).json({ message: err.message });
+        }
         next();
     });
 }, productController.updateProduct);
 
 // Cần ID
-router.delete('/:id', productController.deleteProduct);
+// Cần đăng nhập + Là Admin
+router.delete('/:id', verifyToken, checkAdmin, productController.deleteProduct);
 
 module.exports = router;

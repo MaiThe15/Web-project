@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 // const db = require('./config/db'); // Import kết nối DB để chạy thử
 const productRoutes = require('./routes/productRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 dotenv.config();
 const app = express();
@@ -12,6 +13,9 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors()); // Cho phép Frontend gọi API
 app.use(express.json()); // Để đọc được dữ liệu JSON gửi lên
+
+// Đăng ký route Auth
+app.use('/api/auth', authRoutes); // Đường dẫn sẽ là /api/auth/login, /api/auth/register
 
 // Map đường dẫn URL '/images' vào thư mục 'public/images'
 app.use('/images', express.static(path.join(__dirname, '../public/images')));
