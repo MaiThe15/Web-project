@@ -27,3 +27,8 @@ INSERT INTO products (name, description, price, image_url) VALUES
 ('iPhone 15 Pro', 'Điện thoại xịn nhất 2023', 29990000, '/images/iPhone15Pro.jpg'),
 ('MacBook Air M2', 'Laptop mỏng nhẹ pin trâu', 24500000, '/images/MacBookAirM2.jpg'),
 ('Sony WH-1000XM5', 'Tai nghe chống ồn đỉnh cao', 6500000, '/images/SonyWH-1000XM5.jpg');
+
+-- 5. Cấp quyền cho admin
+UPDATE users 
+SET role = 'admin' 
+WHERE username = 'admin';
