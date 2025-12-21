@@ -52,9 +52,9 @@ const UserHome = () => {
                 {p.name}
               </h3>
 
-              <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+              {/* <p className="text-gray-600 text-sm mb-3 line-clamp-2">
                 {p.description}
-              </p>
+              </p> */}
 
               <div className="flex justify-between items-center">
                 <span className="text-red-600 font-bold text-lg">
@@ -64,9 +64,9 @@ const UserHome = () => {
                   }).format(p.price)}
                 </span>
 
-                <button className="bg-blue-600 text-white text-sm px-3 py-1 rounded hover:bg-blue-700">
+                {/* <button className="bg-blue-600 text-white text-sm px-3 py-1 rounded hover:bg-blue-700">
                   Thêm vào giỏ
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
