@@ -1,8 +1,8 @@
-// src/components/ProductList.jsx
 import { useEffect, useState } from 'react';
 import { getProducts, deleteProduct, BASE_URL } from '../services/api';
 import ProductForm from './ProductForm';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -23,15 +23,39 @@ const ProductList = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    if (window.confirm('Bạn có chắc muốn xóa không?')) {
+    const result = await Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: 'Dữ liệu đã xóa sẽ không thể khôi phục!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy'
+    });
+
+    if (result.isConfirmed) {
       try {
         await deleteProduct(id);
         fetchProducts(); // Load lại sau khi xóa
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Xóa thành công!',
+          showConfirmButton: false,
+          timer: 1500
+        });
       } catch (err) {
-        alert('Xóa thất bại');
+        Swal.fire({
+          icon: 'error',
+          title: 'Xóa thất bại!',
+          text: 'Vui lòng thử lại',
+          confirmButtonText: 'OK'
+        });
       }
     }
   };
+
 
   const handleEdit = (product) => {
     setEditingProduct(product);
@@ -47,10 +71,10 @@ const ProductList = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Quản Lý Sản Phẩm</h1>
+        <h1 className="text-3xl font-bold text-red-600 text-center">Quản Lý Sản Phẩm</h1>
         <button 
           onClick={() => { setEditingProduct(null); setIsFormVisible(!isFormVisible); }}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-green-700"
         >
           {isFormVisible ? 'Đóng Form' : '+ Thêm Mới'}
         </button>

@@ -1,6 +1,7 @@
-// src/components/ProductForm.jsx
+
 import { useState, useEffect } from 'react';
 import { createProduct, updateProduct, BASE_URL } from '../services/api';
+import Swal from 'sweetalert2';
 
 const ProductForm = ({ currentProduct, onSuccess, onCancel }) => {
   const [name, setName] = useState('');
@@ -40,15 +41,34 @@ const ProductForm = ({ currentProduct, onSuccess, onCancel }) => {
     try {
       if (currentProduct) {
         await updateProduct(currentProduct.id, formData);
-        alert('Cập nhật thành công!');
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Cập nhật thành công!',
+          showConfirmButton: false,
+          timer: 1500
+        });
       } else {
         await createProduct(formData);
-        alert('Thêm mới thành công!');
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Thêm mới thành công!',
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
+
       onSuccess(); // Load lại danh sách
     } catch (error) {
       console.error(error);
-      alert('Có lỗi xảy ra!');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Có lỗi xảy ra!',
+        text: 'Vui lòng thử lại',
+        confirmButtonText: 'OK'
+      });
     }
   };
 
@@ -96,7 +116,7 @@ const ProductForm = ({ currentProduct, onSuccess, onCancel }) => {
         </div>
 
         <div className="flex gap-2">
-          <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          <button type="submit" className="bg-red-600 text-white px-4 py-2 rounded hover:bg-blue-700">
             Lưu
           </button>
           <button type="button" onClick={onCancel} className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
