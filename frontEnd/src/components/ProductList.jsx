@@ -9,6 +9,9 @@ const ProductList = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
 
+  // Thêm state tìm kiếm
+  const [searchTerm, setSearchTerm] = useState('');
+
   const fetchProducts = async () => {
     try {
       const res = await getProducts();
@@ -72,6 +75,17 @@ const ProductList = () => {
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-red-600 text-center">Quản Lý Sản Phẩm</h1>
+
+        {/* Thanh tìm kiếm */}
+        <div className="mb-6 max-w-md mx-auto">
+          <input
+            type="text"
+            placeholder="Tìm kiếm theo tên sản phẩm..."
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-red-500"
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
         <button 
           onClick={() => { setEditingProduct(null); setIsFormVisible(!isFormVisible); }}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-green-700"
@@ -81,16 +95,44 @@ const ProductList = () => {
       </div>
 
       {isFormVisible && (
-        <ProductForm 
-          currentProduct={editingProduct} 
-          onSuccess={handleSuccess} 
-          onCancel={() => setIsFormVisible(false)}
-        />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          {/* Container của Form */}
+          <div className="bg-white rounded-lg shadow-2xl w-full max-w-2xl mx-4 overflow-hidden relative animate-fade-in-down">
+            
+            {/* Nút đóng (X) ở góc phải */}
+            <button 
+              onClick={() => setIsFormVisible(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-red-500 transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Nội dung Form */}
+            <div className="p-6 max-h-[90vh] overflow-y-auto">
+              <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
+                {editingProduct ? 'Chỉnh Sửa Sản Phẩm' : 'Thêm Sản Phẩm Mới'}
+              </h2>
+              
+              <ProductForm 
+                currentProduct={editingProduct} 
+                onSuccess={handleSuccess} 
+                onCancel={() => setIsFormVisible(false)}
+              />
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Hiển thị danh sách dạng Grid Card */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {products.map((p) => (
+        {products
+        .filter((p) => {
+          // Chuyển cả tên sản phẩm và từ khóa về chữ thường để tìm chính xác hơn
+          return p.name.toLowerCase().includes(searchTerm.toLowerCase());
+        })
+        .map((p) => (
           <div key={p.id} className="bg-white rounded-lg shadow-lg overflow-hidden border">
             <div className="h-48 overflow-hidden bg-gray-100 flex items-center justify-center">
               {p.image_url ? (
