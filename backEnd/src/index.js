@@ -29,6 +29,6 @@ app.get('/', (req, res) => {
   res.send('Backend đang chạy ngon lành!');
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server đang chạy tại http://localhost:${PORT}`);
 });

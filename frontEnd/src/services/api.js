@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000'; // Dùng để hiển thị ảnh
+const BASE_URL = 'http://13.212.147.250'; // Dùng để hiển thị ảnh
 const PRODUCT_API_URL = `${BASE_URL}/api/products`;
 const AUTH_API_URL = `${BASE_URL}/api/auth`;
 
